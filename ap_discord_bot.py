@@ -10,7 +10,15 @@ from dotenv import load_dotenv
 from discord.ext import commands
 import time
 #client = discord.Client()
+from . import testx
+
+from . import apdb_cogs
+
+
+
 bot = commands.Bot(command_prefix='$')
+
+bot.add_cog(apdb_cogs.Greetings(bot))
 # CHANNEL_ID = 766111633243635822 
 # GUILD_ID = 760873008738074704
 client = commands.Bot(command_prefix='!')
@@ -125,7 +133,7 @@ async def on_member_join(member):
         return
 @bot.event
 # @bot.command
-async def on_message(message, *member):
+async def on_message(message, *member, ctx):
     channel_id = 766111633243635822
     member_role_id = 766036644582391868
     new_member_role_id = 766036457118105620
@@ -201,8 +209,8 @@ async def on_message(message, *member):
             await message.delete()
             await message.author.send(response5)
 
-async def info_sessions(message, *member):
-    if "New Member" in str(message.author.top_role):#FIXME: New Member Messages Here!
+async def info_sessions(message, *member, ctx):
+    if "New Member" in str(ctx.message.author.top_role):#FIXME: New Member Messages Here!
         ROLZ = message.author.roles
         TOPROL = message.author.top_role
         time.sleep(1)
@@ -230,5 +238,7 @@ async def delete_and_move(): # FIXME: MAke this work  new project
     '''This is a function to move people to the proper channels and to delete ALL messages from my server'''
     channel = discord.utils.find(lambda x: x.name == 'afk', message.server.channels)
     await client.move_member(message.author, channel)
+
+
 
 bot.run(str_conditioning(TOKEN))
