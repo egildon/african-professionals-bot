@@ -9,20 +9,14 @@ from discord import channel
 from dotenv import load_dotenv
 from discord.ext import commands
 import time
-#client = discord.Client()
-from . import testx
 
-from . import apdb_cogs
 
 
 
 bot = commands.Bot(command_prefix='$')
-
-bot.add_cog(apdb_cogs.Greetings(bot))
-# CHANNEL_ID = 766111633243635822 
-# GUILD_ID = 760873008738074704
 client = commands.Bot(command_prefix='!')
 load_dotenv()
+
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
@@ -133,7 +127,7 @@ async def on_member_join(member):
         return
 @bot.event
 # @bot.command
-async def on_message(message, *member, ctx):
+async def on_message(message, *member):
     channel_id = 766111633243635822
     member_role_id = 766036644582391868
     new_member_role_id = 766036457118105620
@@ -182,9 +176,17 @@ async def on_message(message, *member, ctx):
     if message.author == bot.user:
         return
 
-    if "New Member" == str(message.author.top_role):#FIXME: New Member Cheeck Here!
-        ROLZ = message.author.roles
-        TOPROL = message.author.top_role
+    role = discord.member
+    print(role)
+    print(discord.Role)
+    print(dir(discord.Role))#FIXME:*TEST DIRs
+   #print(dir(discord.Member.top_role))
+
+    TOPROL = discord.Member.top_role
+    if "New Member" == str(discord.Member.top_role):#FIXME: *New Member Cheeck Here!
+        print("NEW MEMBER HITTT!!!!")
+        ROLZ = discord.Member.roles
+        info_sessions()
         # await message.author.send(f"Top Role: -{TOPROL}")
         user = message.author
         time.sleep(1)
@@ -197,7 +199,8 @@ async def on_message(message, *member, ctx):
         if str(message.channel) in pre_channels:
             await message.author.send(response4)
             #print(dir(message.author.add_roles))
-            if str(message.author.top_role) == "New Member":#TODO: add this member to Members Roles
+            print(str(discord.Member.top_role(id)))
+            if str(discord.Member.top_role) == "New Member":#TODO: add this member to Members Roles
                 print('Auth: ',message.author.id)
                 await user.add_roles(message.guild.get_role(member_role_id))#TODO:This is KLUDGY       
                 await user.remove_roles(message.guild.get_role(new_member_role_id))#TODO:This is HACKY Too       
@@ -210,9 +213,13 @@ async def on_message(message, *member, ctx):
             await message.author.send(response5)
 
 async def info_sessions(message, *member, ctx):
-    if "New Member" in str(ctx.message.author.top_role):#FIXME: New Member Messages Here!
-        ROLZ = message.author.roles
-        TOPROL = message.author.top_role
+    response11 = 'If you have any questions about how to use DISCORD please check the #how-to-use-discord channel on the left side of the screen.'
+    response12 = 'All New Members must first introduce themselves to the group. Please click on the #tell-us-about you channel on the left of the screen, and introduce yourself.'
+    response13 = 'Please make sure to check out the #welcome channel for information on this discord and its ethos.'
+    
+    if "New Member" in str(discord.Member.top_role):#FIXME: New Member Messages Here!
+        ROLZ = discord.Member.roles
+        TOPROL = discord.Member.top_role
         time.sleep(1)
         await message.author.send(f"{response11}")
         time.sleep(1)
@@ -240,5 +247,56 @@ async def delete_and_move(): # FIXME: MAke this work  new project
     await client.move_member(message.author, channel)
 
 
+class Greetings(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self._last_member = None
+
+
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        channel = member.guild.system_channel
+        if channel is not None:
+            await channel.send('Welcome {0.mention}.'.format(member))
+            print("COG is hit!!!!!!")
+        #TODO: MAke this work to find messages
+    async def on_member_join(self, member):
+        
+        # if "New Member" == str(ctx.message.author.top_role):#FIXME: New Member Cheeck Here!
+        #     ROLZ = message.author.roles
+        #     TOPROL = message.author.top_role
+        #     # await message.author.send(f"Top Role: -{TOPROL}")
+        #     user = message.author
+        #     time.sleep(1)
+        #     await message.author.send(f"{response11}")
+        #     time.sleep(2)
+        #     await message.author.send(f"{response12}")
+        #     time.sleep(2)
+        #     await message.author.send(f"{response13}")
+        #     time.sleep(3)
+        #     if str(message.channel) in pre_channels:
+        #         await message.author.send(response4)
+        #         #print(dir(message.author.add_roles))
+        #         if str(ctx.message.author.top_role) == "New Member":#TODO: add this member to Members Roles
+        #             print('Auth: ',message.author.id)
+        #             await user.add_roles(message.guild.get_role(member_role_id))#TODO:This is KLUDGY       
+        #             await user.remove_roles(message.guild.get_role(new_member_role_id))#TODO:This is HACKY Too       
+        #         else:
+        #             print("Already a Member!")
+        #     else:
+        #         await message.author.send(response3)
+        #         # await client.delete_message(message) #bot cannot do this ?
+        #         await message.delete()
+        #         await message.author.send(response5)
+
+        @commands.command()
+        async def hello(self, ctx,*,member:discord.Member = None):
+            """Says Hello"""
+            member = member or ctx.author
+            if self._last_member is None or self._last_member.id != member.id:
+                await ctx.send('Hello {0.name}~'.format(member))
+            else:
+                await ctx.send('Hello {0.name}... This feels familliar.'.format(member))
+            self._last_member = member
 
 bot.run(str_conditioning(TOKEN))
