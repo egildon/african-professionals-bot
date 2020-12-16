@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/home/egildon/.local/lib/python3.8/site-packages/pudb/__init__.py", line 153, in runscript
+    dbg._runscript(mainpyfile)
+  File "/home/egildon/.local/lib/python3.8/site-packages/pudb/debugger.py", line 468, in _runscript
+    self.run(statement)
+  File "/usr/lib/python3.8/bdb.py", line 580, in run
+    exec(cmd, globals, locals)
+  File "<string>", line 1, in <module>
+  File "/home/egildon/Projects_Code/african-professionals-bot/ap_discord_bot_rewrite.py", line 94, in <module>
+    bot.run(str_conditioning(TOKEN))
+  File "/home/egildon/.local/lib/python3.8/site-packages/discord/client.py", line 651, in run
+    loop.add_signal_handler(signal.SIGINT, lambda: loop.stop())
+  File "/usr/lib/python3.8/asyncio/unix_events.py", line 89, in add_signal_handler
+    self._check_closed()
+  File "/usr/lib/python3.8/asyncio/base_events.py", line 508, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed

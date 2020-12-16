@@ -29,8 +29,6 @@ async def on_ready():
     # cogs: list = ['Cogs.newmember_cog']
     cogs: list = []
     print("ON READY: READY!!!")
-    print(f'{bot.user} has connected to Discord!')
-    print('We have logged in as {0.user}'.format(bot))
 
     for root, dirs, files in os.walk("./Cogs"):
         # print(files)
@@ -42,11 +40,12 @@ async def on_ready():
                 if cogstr not in cogs:
                     print(f"Appending: {cogstr}")
                     cogs.append(f"Cogs.{cogstr}")
-                else:
-                    pass
-
+                # else:
+                #     pass
     for item in cogs:
         print(f"List item: {item}")
+    print(f'{bot.user} has connected to Discord!')
+    print('We have logged in as {0.user}'.format(bot))
 
     for cog in cogs:
         try:
@@ -55,8 +54,10 @@ async def on_ready():
             print(f"Done Loading {cog}")
         except Exception as err:
             exec = (type(err).__name__)
+            # exec = "{}: {}".format(type(err).__name__, e)
             print(f"Failed to load cog: {exec}")
-    breakpoint()
+            # print("Failed to load cog {}\n{}".format(cog, exc))
+
 @bot.event
 async def on_message(message):
     # ignores bot messages##
@@ -90,5 +91,5 @@ if __name__ == "__main__":
     #             if test1 and not test2:
     #                 # print(dir(bot.load_<F2>extension))
     #                 bot.load_extension(f".Cogs{fnamestr[:-3]}")
+    breakpoint()
     bot.run(str_conditioning(TOKEN))
-    # breakpoint()

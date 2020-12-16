@@ -38,7 +38,7 @@ def channel_zero(message):
         # return ctx.message.channel.id
     return  commands.check(predicate)
 
- 
+
 def str_conditioning(dirtystr):
     regex = r"{([^}]*)}"
     new = re.findall(regex, dirtystr, re.MULTILINE)
@@ -77,7 +77,7 @@ async def on_ready():
         print(ch)
     for channelz in guild.text_channels:
         print(channelz)
-        
+
 @bot.command
 async def dm(ctx):
     await ctx.author.send('DM Message!!!!')
@@ -113,7 +113,7 @@ async def on_member_join(member):
     await add_role(member, "New Member") # add this back if on guild join doesnt work
     print('Top Role 2:', member.top_role)
     print(member.roles)
-    
+
     if str(member.top_role) == "@everyone":
         await add_role(member, 'New Member')
         print(f"New Member: {member.name} added with {member.roles} Roles")
@@ -202,8 +202,8 @@ async def on_message(message, *member):
             print(str(discord.Member.top_role(id)))
             if str(discord.Member.top_role) == "New Member":#TODO: add this member to Members Roles
                 print('Auth: ',message.author.id)
-                await user.add_roles(message.guild.get_role(member_role_id))#TODO:This is KLUDGY       
-                await user.remove_roles(message.guild.get_role(new_member_role_id))#TODO:This is HACKY Too       
+                await user.add_roles(message.guild.get_role(member_role_id))#TODO:This is KLUDGY
+                await user.remove_roles(message.guild.get_role(new_member_role_id))#TODO:This is HACKY Too
             else:
                 print("Already a Member!")
         else:
@@ -216,7 +216,7 @@ async def info_sessions(message, *member, ctx):
     response11 = 'If you have any questions about how to use DISCORD please check the #how-to-use-discord channel on the left side of the screen.'
     response12 = 'All New Members must first introduce themselves to the group. Please click on the #tell-us-about you channel on the left of the screen, and introduce yourself.'
     response13 = 'Please make sure to check out the #welcome channel for information on this discord and its ethos.'
-    
+
     if "New Member" in str(discord.Member.top_role):#FIXME: New Member Messages Here!
         ROLZ = discord.Member.roles
         TOPROL = discord.Member.top_role
@@ -236,7 +236,7 @@ async def get_channel_messages():
         if message.author == bot.user:
             counter +=1
             print(f'Message: {message} No: {Counter}')
-            
+
 @bot.command
 async def getmsg(ctx, msg_id: int):
     msg = await ctx.fetch_message(msg_id)
@@ -261,7 +261,7 @@ class Greetings(commands.Cog):
             print("COG is hit!!!!!!")
         #TODO: MAke this work to find messages
     async def on_member_join(self, member):
-        
+
         # if "New Member" == str(ctx.message.author.top_role):#FIXME: New Member Cheeck Here!
         #     ROLZ = message.author.roles
         #     TOPROL = message.author.top_role
@@ -279,8 +279,8 @@ class Greetings(commands.Cog):
         #         #print(dir(message.author.add_roles))
         #         if str(ctx.message.author.top_role) == "New Member":#TODO: add this member to Members Roles
         #             print('Auth: ',message.author.id)
-        #             await user.add_roles(message.guild.get_role(member_role_id))#TODO:This is KLUDGY       
-        #             await user.remove_roles(message.guild.get_role(new_member_role_id))#TODO:This is HACKY Too       
+        #             await user.add_roles(message.guild.get_role(member_role_id))#TODO:This is KLUDGY
+        #             await user.remove_roles(message.guild.get_role(new_member_role_id))#TODO:This is HACKY Too
         #         else:
         #             print("Already a Member!")
         #     else:

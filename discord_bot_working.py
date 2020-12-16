@@ -15,11 +15,12 @@ import time
 
 #client = discord.Client()
 bot = commands.Bot(command_prefix='$')
-CHANNEL_ID = 766111633243635822 
+CHANNEL_ID = 766111633243635822
 client = commands.Bot(command_prefix='!')
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
+
 
 def test_func():
     print("test, test, test")
@@ -39,7 +40,7 @@ def channel_zero(message):
         # return ctx.message.channel.id
     return  commands.check(predicate)
 
- 
+
 def str_conditioning(dirtystr):
     regex = r"{([^}]*)}"
     new = re.findall(regex, dirtystr, re.MULTILINE)
@@ -78,7 +79,7 @@ async def on_ready():
         print(ch)
     for channelz in guild.text_channels:
         print(channelz)
-        
+
 @bot.command
 async def dm(ctx):
     await ctx.author.send('DM Message!!!!')
@@ -103,6 +104,8 @@ async def on_member_join(member):
 async def on_message(message, *member):
     channel_id = 766111633243635822
     incoming_message = message.content.lower()
+    ROLZ = message.author.roles
+    VTOPROL = message.author.top_role
 
 
     response0 = 'Akwaaba!!!'
@@ -140,6 +143,7 @@ async def on_message(message, *member):
     if message.author == bot.user:
         return
 
+    print(dir (message.author.top_role())
     if "New Member" in str(message.author.top_role):#FIXME: New Member Messages Here!
         ROLZ = message.author.roles
         TOPROL = message.author.top_role
@@ -149,16 +153,17 @@ async def on_message(message, *member):
         if str(message.channel) in pre_channels:
             await message.author.send(response4)
             if str(member) == "New Member":#TODO: add this member to Members Roles
-                await add_role(member.roles, "Member")       
-                await message.auhor.add_roles("Member") #TODO: Check this for workness      
-                await message.auhor.remove_roles("New Member") #TODO: Check this for workness      
+                await add_role(member.roles, "Member")
+                await message.auhor.add_roles("Member") #TODO: Check this for workness
+                await message.auhor.remove_roles("New Member") #TODO: Check this for workness
             else:
                 print("Already a Member!")
         else:
             await message.author.send(response3)
 
 async def info_sessions(message, *member):
-
+    ROLZ = message.author.roles
+    VTOPROL = message.author.top_role
     response11 = 'If you have any questions about how to use DISCORD please check the #how-to-use-discord channel on the left side of the screen.'
     response12 = 'All New Members must first introduce themselves to the group. Please click on the #tell-us-about you channel on the left of the screen, and introduce yourself.'
     response13 = 'Please make sure to check out the #welcome channel for information on this discord and its ethos.'
@@ -199,4 +204,4 @@ async def delete_messag(ctx, number):
 #     for channel in guild.text_channels:
 #         for message in channel:
 #             await message.delete()
-# bot.run(str_conditioning(TOKEN))
+bot.run(str_conditioning(TOKEN))

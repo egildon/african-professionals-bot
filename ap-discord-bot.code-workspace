@@ -1,3 +1,27 @@
 {
-	"folders": []
+	"folders": [],
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+		{
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}"
+			],
+			"name": "Launch Extension",
+			"outFiles": [
+				"${workspaceFolder}/out/**/*.js"
+			],
+			"preLaunchTask": "npm",
+			"request": "launch",
+			"type": "pwa-extensionHost"
+		},
+			{
+				"name": "Python: Current File",
+				"type": "python",
+				"request": "launch",
+				"program": "${file}",
+				"console": "integratedTerminal"
+			}
+		]
+	}
 }
