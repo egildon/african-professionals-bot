@@ -1,4 +1,4 @@
-'''This is a discord bot initiall designed for African Professionals Discord'''
+'''This is an old discord bot initiall designed for the Codors of color  Discord'''
 #discord_bot.py
 from collections import Counter
 import os
@@ -22,8 +22,8 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
 
-def test_func():
-    print("test, test, test")
+# ROLZ = message.author.roles
+# TOPROL = message.author.top_role
 
 def in_channel(channel_id):
     '''Decorator to lock channel to supplied chennel_id'''
@@ -49,6 +49,7 @@ def str_conditioning(dirtystr):
 
 @bot.event
 async def on_ready():
+
     print(f'{bot.user} has connected to Discord!')
     print('We have logged in as {0.user}'.format(bot))
     for guild in bot.guilds:
@@ -86,27 +87,28 @@ async def dm(ctx):
 
 @bot.event #TODO:See if this works!
 async def add_role(member, server_role):
-        role = discord.utils.get(member.guild.roles, name=str(server_role))
-        await discord.Member.add_roles(member, role)
-        print(f'Member with id: {member}')
-        print(member.roles)
-        mrolls = member.roles
-        print(len(mrolls))
-        print('Candidate Exterminated!!!')
+    role = discord.utils.get(member.guild.roles, name=str(server_role))
+    await discord.Member.add_roles(member, role)
+    print(f'Member with id: {member}')
+    print(member.roles)
+    mrolls = member.roles
+    print(len(mrolls))
+    print('Candidate Exterminated!!!')
 
 @bot.event
-async def on_member_join(member):
+async def on_member_join(*member):
     await member.create_dm()
     await member.dm_channel.send(
     f'Hi {member.name}, welcome to the Coders Of Color discord server!')
 
 @bot.event
 async def on_message(message, *member):
+
     channel_id = 766111633243635822
     incoming_message = message.content.lower()
     ROLZ = message.author.roles
-    VTOPROL = message.author.top_role
-
+    TOPROL = message.author.top_role
+    MEMNAME = message.author
 
     response0 = 'Akwaaba!!!'
     response1 = 'Medaase!'
@@ -143,10 +145,14 @@ async def on_message(message, *member):
     if message.author == bot.user:
         return
 
-    print(dir (message.author.top_role())
-    if "New Member" in str(message.author.top_role):#FIXME: New Member Messages Here!
-        ROLZ = message.author.roles
-        TOPROL = message.author.top_role
+    # print(dir (message.author.top_role))
+    # print(('Message Author (in on_message):', message.author.top_role))
+    print(f"TOPROL: {TOPROL} for: {MEMNAME}")
+    # breakpoint()
+    if "New Member" == str(TOPROL):#FIXME: New Member Messages Here!
+        print(dir(message.author.role))
+        # ROLZ = message.author.roles
+        # TOPROL = message.author.top_role
         await message.author.send(f"{response4}: Roles {ROLZ}")
         await message.author.send(f"Top Role {TOPROL}")
 
@@ -162,14 +168,12 @@ async def on_message(message, *member):
             await message.author.send(response3)
 
 async def info_sessions(message, *member):
-    ROLZ = message.author.roles
-    VTOPROL = message.author.top_role
+    # ROLZ = message.author.roles
+    # TOPROL = message.author.top_role
     response11 = 'If you have any questions about how to use DISCORD please check the #how-to-use-discord channel on the left side of the screen.'
     response12 = 'All New Members must first introduce themselves to the group. Please click on the #tell-us-about you channel on the left of the screen, and introduce yourself.'
     response13 = 'Please make sure to check out the #welcome channel for information on this discord and its ethos.'
     if "New Member" in str(message.author.top_role):#FIXME: New Member Messages Here!
-        ROLZ = message.author.roles
-        TOPROL = message.author.top_role
         time.sleep(1)
         await message.author.send(f"{response11}")
         time.sleep(1)

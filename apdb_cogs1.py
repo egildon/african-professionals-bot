@@ -1,3 +1,4 @@
+#apdb_cogs1.py
 import discord
 from discord.ext import commands
 
@@ -31,8 +32,8 @@ class GuildPreamble(commands.Cog):
 
             ch = bot.get_channel(766111633243635822)
             print(ch)
-        for channelz in guild.text_channels:
-            print(channelz)
+    for channelz in guild.text_channels:
+        print(channelz)
 
 async def on_message(message, *member):
     channel_id = 766111633243635822
@@ -50,7 +51,7 @@ class SortingHat(commands.Cog):
             if len(member.roles) == 1 and "@everyone" in role_names:
                 print('Candidate for termination!')
                 #changes @everyone to "New Members"
-                await add_role(member, "New Member")
+                add_role(member, "New Member")
             else:
                 pass
             role_names = [role.name for role in member.roles]

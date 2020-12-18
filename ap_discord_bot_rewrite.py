@@ -20,6 +20,8 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
+guildRoles = {"Member": 766036644582391868, "New Member": 766036457118105620, "@everyone": 760873008738074704}
+guildChannel = {"#tell-us-about-you": 766111633243635822, "#read-first": 788606582761717761}
 
 # cogs: list = ['Cogs.newmember_cog']
 
@@ -31,17 +33,20 @@ async def on_ready():
     print("ON READY: READY!!!")
     print(f'{bot.user} has connected to Discord!')
     print('We have logged in as {0.user}'.format(bot))
-
+    print("program ap_discord_bot_rewrite.py")
     for root, dirs, files in os.walk("./Cogs"):
         # print(files)
         for fnamestr in files:
-            testcase = fnamestr.startswith("_")
-            if testcase is True and fnamestr.endswith(".py"):
+            testcase1 = fnamestr.startswith("_")
+            if testcase1 is False and fnamestr.endswith(".py"):
                 cogstr = fnamestr. rstrip(".py")
                 print(cogstr)
+
+                #reload cogs method
+                cogstr = (f"Cogs.{cogstr}")
                 if cogstr not in cogs:
                     print(f"Appending: {cogstr}")
-                    cogs.append(f"Cogs.{cogstr}")
+                    cogs.append(cogstr)
                 else:
                     pass
 
@@ -56,7 +61,8 @@ async def on_ready():
         except Exception as err:
             exec = (type(err).__name__)
             print(f"Failed to load cog: {exec}")
-    breakpoint()
+    # breakpoint()
+
 @bot.event
 async def on_message(message):
     # ignores bot messages##
