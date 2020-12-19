@@ -4,6 +4,7 @@ from discord.ext import commands
 from discord import channel
 from discord.ext import commands
 from discord import member
+import time
 from time import sleep
 import os
 bot = commands.Bot(command_prefix='$')
@@ -94,7 +95,17 @@ class newmember_cog(commands.Cog):
         response1 = 'Medaase!'
         response3 = 'You must still tell us about youeself to be given full access to the AB Discord.'
         response4 = 'Congatulations, you have sucessfully posted in the #tell-us-about-yourself channel. You will now be given access to the rest of the Discord'
-        # response3 = 'You have achieved TRANSCENDANCE!'
+        response11 = 'If you have any questions about how to use DISCORD please check the #how-to-use-discord channel on the left side of the screen.'
+        response12 = 'All New Members must first introduce themselves to the group. Please click on the #tell-us-about you channel on the left of the screen, and introduce yourself.'
+        response13 = 'Please make sure to check out the #welcome channel for information on this discord and its ethos.'
+        if "New Member" in str(member):  #FIXME: New Member Messages Here!
+            time.sleep(1)
+            await message.author.send(f"{response11}")
+            time.sleep(1)
+            await message.author.send(f"{response12}")
+            time.sleep(1)
+            await message.author.send(f"{response13}")
+            time.sleep(1)
         pre_channels = ["tell-us-about-you"]
         if incoming_message.lower() == 'hello':
             await message.channel.send(response0)
@@ -119,7 +130,7 @@ class newmember_cog(commands.Cog):
         # print(role)
         # print(role.Role)
         # print(dir(discord.Role))#FIXME:*TEST DIRs
-    #print(dir(discord.Member.top_role))
+        #print(dir(discord.Member.top_role))
 
         # TOPROL = discord.Member.top_role
         # breakpoint()
@@ -127,7 +138,6 @@ class newmember_cog(commands.Cog):
             # breakpoint()
             print("NEW MEMBER HITTT!!!!")
             ROLZ = discord.Member.roles
-            info_sessions()
             # await message.author.send(f"Top Role: -{TOPROL}")
             user = message.author
             time.sleep(1)
