@@ -13,38 +13,43 @@ GUILD = os.getenv('DISCORD_GUILD')
 # ROLZ = message.author.roles
 # TOPROL = message.author.top_role
 
+guildRoles = {"Member": 766036644582391868, "New Member": 766036457118105620, "@everyone": 760873008738074704}
+guildChannel = {"#tell-us-about-you": 766111633243635822, "#read-first": 788606582761717761}
+
 class newmember_cog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
+        
+    @bot.event  #This works as expected!
+    async def add_role(member, server_role):
+        '''Adds a role to user profile'''
+        role = discord.utils.get(member.guild.user, name=str(server_role))
+        print(member.roles)
+        await discord.Member.add_roles(member, role)
+        print(f'Member with id: {member}')
+        print(member.roles)
+        mrolls = member.roles
+        print(len(mrolls))
 
-        @bot.event  #This works as expected!
-        async def add_role(member, server_role):
-            role = discord.utils.get(member.guild.roles, name=str(server_role))
-            print(member.roles)
-            await discord.Member.add_roles(member, role)
-            print(f'Member with id: {member}')
-            print(member.roles)
-            mrolls = member.roles
-            print(len(mrolls))
-
-        async def sorting_hat():#TODO: This might not work
-            #TODO: Sorting Hat
-            for member in bot.guild.members:
-                role_names = [role.name for role in member.roles]
-                if len(member.roles) == 1 and "@everyone" in role_names:
-                    print('Candidate for termination!')
-                    #changes @everyone to "New Members"
-                    await add_role(member, "New Member")
-                else:
-                    pass
-                role_names = [role.name for role in member.roles]
-                if "New Member" in role_names:  #TODO: Check for posts in tell us about yourself
-                    print(f'Member Name: {member.name}, Member Role: {member.roles}')
-            ch = bot.get_channel(766111633243635822)
-            print(ch)
-        # for channelz in discord._channel_factory:
-        #     print(channelz)
+    # @bot.event
+    # async def sorting_hat(members):#TODO: This might not work
+    #     #TODO: Sorting Hat
+    #     for member in bot.guild.members:
+    #         role_names = [role.name for role in member.roles]
+    #         if len(member.roles) == 1 and "@everyone" in role_names:
+    #             print('Candidate for termination!')
+    #             #changes @everyone to "New Members"
+    #             await newmember_cog.add_role(member, "New Member")
+    #         else:
+    #             pass
+    #         role_names = [role.name for role in member.roles]
+    #         if "New Member" in role_names:  #TODO: Check for posts in tell us about yourself
+    #             print(f'Member Name: {member.name}, Member Role: {member.roles}')
+    #     ch = bot.get_channel(766111633243635822)
+    #     print(ch)
+    # for channelz in discord._channel_factory:
+    #     print(channelz)
         
     # @commands.Cog.listener()
     # async def on_member_join(self, member):
@@ -85,12 +90,13 @@ class newmember_cog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(ctx, message):
-        ROLZ = message.author.roles
+        # ROLZ = message.author.roles
         TOPROL = message.author.top_role
         channel_id = 766111633243635822
         incoming_messageid = message.id
         incoming_message = message.content
         MEMNAME = message.author
+        GUILDROLE = discord.Member.top_role
         response0 = 'Akwaaba!!!'
         response1 = 'Medaase!'
         response3 = 'You must still tell us about youeself to be given full access to the AB Discord.'
@@ -136,7 +142,7 @@ class newmember_cog(commands.Cog):
 
         # TOPROL = discord.Member.top_role
         # breakpoint()
-        if "New Member" == str(TOPROL.name):#FIXME: *New Member Cheeck Here!
+        if "New Member" == str(TOPROL):#FIXME: *New Member Cheeck Here!
             # breakpoint()
             print("NEW MEMBER HITTT!!!!")
             ROLZ = discord.Member.roles
@@ -149,12 +155,14 @@ class newmember_cog(commands.Cog):
             time.sleep(2)
             await message.author.send(f"{response13}")
             time.sleep(3)
-            if str(message.channel) in pre_channels:
+
+            if str(message.channel) ==  guildChannel['tell_us-about-you']:
                 #FIXME: This is what I think needs work!!!!
                 await message.author.send(response4)
                 # await message.author.add_roles())
                 print(str(discord.Member.top_role(id)))
-                if str(discord.Member.top_role) == "New Member":  #TODO: add this member to Members Roles
+
+                if str(TOPROL) == "New Member":  #TODO: add this member to Members Roles
                     print('Auth:xxx ',message.author.id)
                     await user.add_roles(message.guild.get_role(bot.member_role_id))  #TODO:This is KLUDGY
                     await user.remove_roles(message.guild.get_role(bot.new_member_role_id))  #TODO:This is HACKY Too
@@ -165,15 +173,26 @@ class newmember_cog(commands.Cog):
                 await ctx.client.delete_message(message) #bot cannot do this ?
                 await message.delete()
                 await message.author.send(response3)
+            #     if str(TOPROL.name) == "New Member":  #TODO: add this member to Members Roles
+            #         print('Auth:xxx ',message.author.id)
+            #         await user.add_roles(message.guild.get_role(bot.member_role_id))  #TODO:This is KLUDGY
+            #         await user.remove_roles(message.guild.get_role(bot.new_member_role_id))  #TODO:This is HACKY Too
+            #     else:
+            #         print("Already a Member!")
+            # else:
+            #     await message.author.send(response3)
+            #     await ctx.client.delete_message(message) #bot cannot do this ?
+            #     await message.delete()
+            #     await message.author.send(response3)
 
         # print(f"TOPROL: {TOPROL} for: {MEMNAME}")
         # breakpoint()
-        if "New Member" == str(TOPROL.name):#FIXME: New Member Messages Here!
-            print(dir(message.author.role))
+        if "New Member" == str(TOPROL):#FIXME: New Member Messages Here!
+            print(dir(message.author.top_role))#FIXME: This could be what is working!
             # ROLZ = message.author.roles
             # TOPROL = message.author.top_role
-            await message.author.send(f"{response4}: Roles {ROLZ}")
-            await message.author.send(f"Top Role {TOPROL.name}")
+            await message.author.send(f"{response4}: Roles {TOPROL}")
+            await message.author.send(f"Top Role {TOPROL}")
 
             if str(message.channel) in pre_channels:
                 await message.author.send(response4)

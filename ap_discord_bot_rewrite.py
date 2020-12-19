@@ -25,6 +25,15 @@ guildChannel = {"#tell-us-about-you": 766111633243635822, "#read-first": 7886065
 
 # cogs: list = ['Cogs.newmember_cog']
 
+@bot.event #TODO:See if this works!
+async def add_role(member, server_role):
+    role = discord.utils.get(member.guild.roles, name=str(server_role))
+    await discord.Member.add_roles(member, role)
+    print(f'Member with id: {member}')
+    print(member.roles)
+    mrolls = member.roles
+    print(len(mrolls))
+    print('Candidate Exterminated!!!')
 
 @bot.event
 async def on_ready():
@@ -34,6 +43,31 @@ async def on_ready():
     print(f'{bot.user} has connected to Discord!')
     print('We have logged in as {0.user}'.format(bot))
     print("program ap_discord_bot_rewrite.py")
+    print('We have logged in as {0.user}'.format(bot))
+    for guild in bot.guilds:
+        if guild.name == GUILD:
+            break
+        print(
+            f'{bot.user} is connected to the following guild:\n'
+            f'{guild.name}(id: {guild.id})')
+        members = '\n - '.join([member.name for member in guild.members])
+        # members = '\n - '.join([member.name for member in guild.members])
+        print(f'Guild Members:\n - {members}')
+        print(f'{bot.user} is connected to the following guild:\n'
+             f'{guild.name} (id: {guild.id})')
+        #TODO: Sorting Hat
+        for member in guild.members:
+            role_names = [role.name for role in member.roles]
+            if len(member.roles) == 1 and "@everyone" in role_names:
+                print('Candidate for termination!')
+                #changes @everyone to "New Members"
+                await add_role(member, "New Member")
+            else:
+                pass
+            role_names = [role.name for role in member.roles]
+            if "New Member" in role_names:#TODO: Check for posts in tell us about yourself
+                print(f'Member Name: {member.name}, Member Role: {member.roles}')
+
     for root, dirs, files in os.walk("./Cogs"):
         # print(files)
         for fnamestr in files:
