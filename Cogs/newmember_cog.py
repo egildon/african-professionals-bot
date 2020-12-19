@@ -41,8 +41,6 @@ class newmember_cog(commands.Cog):
         pre_channels = ["tell-us-about-you"]
         if incoming_message.lower() == 'hello':
             await message.channel.send(response0)
-        if incoming_message.lower() == 'hello':
-            await message.channel.send(response0)
 
         #FIXME: Make the Regular ex    await on_message2(message)pression work here!
         # pattern1 = re.compile(r'\b({0})\b'.format(w), flags=re.IGNORECASE).search

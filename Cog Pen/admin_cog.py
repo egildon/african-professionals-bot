@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 # from discord import command
 
-from .ap_discord_bot_rewrite.py import cogs 
+# from .ap_discord_bot_rewrite.py import cogs 
 
 
 
@@ -45,7 +45,7 @@ class Admin(commands.Cog):
 
     @commands.command(name='reload', description="Reload all one of the cogs")
     @commands.is_owner()
-    async def reloadCogsDir(self, ctx, cogs):
+    async def reloadCogsDir(self, ctx, *cogs):
         for extension in self.extensions:
             try:
                 self.unload_extension(extension)

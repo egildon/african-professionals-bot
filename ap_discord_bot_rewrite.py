@@ -20,8 +20,8 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-guildRoles = {"Member": 766036644582391868, "New Member": 766036457118105620, "@everyone": 760873008738074704}
-guildChannel = {"#tell-us-about-you": 766111633243635822, "#read-first": 788606582761717761}
+# guildRoles = {"Member": 766036644582391868, "New Member": 766036457118105620, "@everyone": 760873008738074704}
+# guildChannel = {"#tell-us-about-you": 766111633243635822, "#read-first": 788606582761717761}
 
 # cogs: list = ['Cogs.newmember_cog']
 
@@ -56,15 +56,48 @@ async def on_ready():
     for cog in cogs:
         try:
             print(f"Loading cog {cog}")
-            bot.load_extension(cog)
+            bot.load_extension(cog) #this is giving me an error
             print(f"Done Loading {cog}")
         except Exception as err:
             exec = (type(err).__name__)
-            print(f"Failed to load cog: {exec}")
+            print(f"Failed to load cog: {cog} -> {exec}")
+
     # breakpoint()
 
+# @bot.event
+# async def member_check():
+#     print(f'{bot.user} has connected to Discord!')
+#     print('We have logged in as {0.user}'.format(bot))
+#     for guild in bot.guilds:
+#         if guild.name == GUILD:
+#             break
+#         print(
+#             f'{bot.user} is connected to the following guild:\n'
+#             f'{guild.name}(id: {guild.id})')
+#         members = '\n - '.join([member.name for member in guild.members])
+#         # members = '\n - '.join([member.name for member in guild.members])
+#         print(f'Guild Members:\n - {members}')
+#         print(f'{bot.user} is connected to the following guild:\n'
+#              f'{guild.name} (id: {guild.id})')
+#         #TODO: Sorting Hat
+#         for member in guild.members:
+#             role_names = [role.name for role in member.roles]
+#             if len(member.roles) == 1 and "@everyone" in role_names:
+#                 print('Candidate for termination!')
+#                 #changes @everyone to "New Members"
+#                 await add_role(member, "New Member")
+#             else:
+#                 pass
+#             role_names = [role.name for role in member.roles]
+#             if "New Member" in role_names:  #TODO: Check for posts in tell us about yourself
+#                 print(f'Member Name: {member.name}, Member Role: {member.roles}')
+#         ch = bot.get_channel(766111633243635822)
+#         print(ch)
+#     for channelz in guild.text_channels:
+#         print(channelz)
+
 @bot.event
-async def on_message(message):
+async def on_message(message): #TODO: Is this needed?
     # ignores bot messages##
     if message.author.bot:
         return

@@ -74,7 +74,6 @@ async def on_ready():
             role_names = [role.name for role in member.roles]
             if "New Member" in role_names:  #TODO: Check for posts in tell us about yourself
                 print(f'Member Name: {member.name}, Member Role: {member.roles}')
-
         ch = bot.get_channel(766111633243635822)
         print(ch)
     for channelz in guild.text_channels:
