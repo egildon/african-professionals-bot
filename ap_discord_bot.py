@@ -243,7 +243,6 @@ async def info_sessions(message, member):
     response13 = 'Please make sure to check out the #welcome channel for information on this discord and its ethos.'
     ROLZ = discord.Member.roles
     TOPROL = discord.Member.top_role
-
     if "New Member" in str(member):  #FIXME: New Member Messages Here!
         time.sleep(1)
         await message.author.send(f"{response11}")

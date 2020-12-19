@@ -20,8 +20,8 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-# guildRoles = {"Member": 766036644582391868, "New Member": 766036457118105620, "@everyone": 760873008738074704}
-# guildChannel = {"#tell-us-about-you": 766111633243635822, "#read-first": 788606582761717761}
+guildRoles = {"Member": 766036644582391868, "New Member": 766036457118105620, "@everyone": 760873008738074704}
+guildChannel = {"#tell-us-about-you": 766111633243635822, "#read-first": 788606582761717761}
 
 # cogs: list = ['Cogs.newmember_cog']
 

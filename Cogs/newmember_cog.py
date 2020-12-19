@@ -4,14 +4,47 @@ from discord.ext import commands
 from discord import channel
 from discord.ext import commands
 from discord import member
-
+from time import sleep
+import os
 bot = commands.Bot(command_prefix='$')
+
+GUILD = os.getenv('DISCORD_GUILD')
+# ROLZ = message.author.roles
+# TOPROL = message.author.top_role
 
 class newmember_cog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
 
+        @bot.event  #This works as expected!
+        async def add_role(member, server_role):
+            role = discord.utils.get(member.guild.roles, name=str(server_role))
+            print(member.roles)
+            await discord.Member.add_roles(member, role)
+            print(f'Member with id: {member}')
+            print(member.roles)
+            mrolls = member.roles
+            print(len(mrolls))
+
+        async def sorting_hat():#TODO: This might not work
+            #TODO: Sorting Hat
+            for member in bot.guild.members:
+                role_names = [role.name for role in member.roles]
+                if len(member.roles) == 1 and "@everyone" in role_names:
+                    print('Candidate for termination!')
+                    #changes @everyone to "New Members"
+                    await add_role(member, "New Member")
+                else:
+                    pass
+                role_names = [role.name for role in member.roles]
+                if "New Member" in role_names:  #TODO: Check for posts in tell us about yourself
+                    print(f'Member Name: {member.name}, Member Role: {member.roles}')
+            ch = bot.get_channel(766111633243635822)
+            print(ch)
+        for channelz in bot.guild.text_channels:
+            print(channelz)
+        
     # @commands.Cog.listener()
     # async def on_member_join(self, member):
     #     channel = member.guild.system_channel
@@ -23,15 +56,39 @@ class newmember_cog(commands.Cog):
     async def on_member_join(*member):
         await member.create_dm()
         await member.dm_channel.send(
-        f'Hi {member.name}, welcome to the Coders Of Color discord server!')
+        f'Hi {member.name}, welcome to the Coders Of Color discord server!(newmwmber_cog)')
+
+    @commands.Cog.listener()
+    async def info_sessions(message, member):
+        response11 = 'If you have any questions about how to use DISCORD please check the #how-to-use-discord channel on the left side of the screen.'
+        response12 = 'All New Members must first introduce themselves to the group. Please click on the #tell-us-about you channel on the left of the screen, and introduce yourself.'
+        response13 = 'Please make sure to check out the #welcome channel for information on this discord and its ethos.'
+        if "New Member" in str(member):  #FIXME: New Member Messages Here!
+            time.sleep(1)
+            await message.author.send(f"{response11}")
+            time.sleep(1)
+            await message.author.send(f"{response12}")
+            time.sleep(1)
+            await message.author.send(f"{response13}")
+            time.sleep(1)
+                
+    @bot.event  #This works as expected!
+    async def add_role(member, server_role):
+        role = discord.utils.get(member.guild.roles, name=str(server_role))
+        print(member.roles)
+        await discord.Member.add_roles(member, role)
+        print(f'Member with id: {member}')
+        print(member.roles)
+        mrolls = member.roles
+        print(len(mrolls))
 
     @commands.Cog.listener()
     async def on_message(ctx, message):
+        ROLZ = message.author.roles
+        TOPROL = message.author.top_role
         channel_id = 766111633243635822
         incoming_messageid = message.id
         incoming_message = message.content
-        ROLZ = message.author.roles
-        TOPROL = message.author.top_role
         MEMNAME = message.author
         response0 = 'Akwaaba!!!'
         response1 = 'Medaase!'
@@ -64,7 +121,7 @@ class newmember_cog(commands.Cog):
         # print(dir(discord.Role))#FIXME:*TEST DIRs
     #print(dir(discord.Member.top_role))
 
-        TOPROL = discord.Member.top_role
+        # TOPROL = discord.Member.top_role
         # breakpoint()
         if "New Member" == str(TOPROL):#FIXME: *New Member Cheeck Here!
             # breakpoint()
@@ -99,7 +156,7 @@ class newmember_cog(commands.Cog):
 
         # print(f"TOPROL: {TOPROL} for: {MEMNAME}")
         # breakpoint()
-        if "New Member" == str(TOPROL):#FIXME: New Member Messages Here!
+        if "New Member" == str(TOPROL.name):#FIXME: New Member Messages Here!
             print(dir(message.author.role))
             # ROLZ = message.author.roles
             # TOPROL = message.author.top_role
@@ -116,22 +173,6 @@ class newmember_cog(commands.Cog):
                     print("Already a Member!")
             else:
                 await message.author.send(response3)
-
-    async def info_sessions(message, member):
-        response11 = 'If you have any questions about how to use DISCORD please check the #how-to-use-discord channel on the left side of the screen.'
-        response12 = 'All New Members must first introduce themselves to the group. Please click on the #tell-us-about you channel on the left of the screen, and introduce yourself.'
-        response13 = 'Please make sure to check out the #welcome channel for information on this discord and its ethos.'
-        ROLZ = discord.Member.roles
-        TOPROL = discord.Member.top_role
-
-        if "New Member" in str(member):  #FIXME: New Member Messages Here!
-            time.sleep(1)
-            await message.author.send(f"{response11}")
-            time.sleep(1)
-            await message.author.send(f"{response12}")
-            time.sleep(1)
-            await message.author.send(f"{response13}")
-            time.sleep(1)
 
 
 
