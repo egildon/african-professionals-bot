@@ -10,10 +10,32 @@ class foo:
     def __init__(self,name,age):
         self.name = name
         self.age = age
+    def fool():
+        print("yes it is!")
+
+    def sage():
+        print
+        print("the sky is blue.")
+        foo.fool()
+
+     
 
 
 print(foo)
 #print(dir(foo))
 goo = foo
 
-print(guildRoles["Member"])
+
+foo.fool()
+foo.sage()
+
+# def fool():
+#     print("yes it is!")
+
+# def sage():
+#      print
+#      print("the sky is blue.")
+
+#      fool()
+# sage()
+

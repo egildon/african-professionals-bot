@@ -53,6 +53,7 @@ async def on_ready():
     for item in cogs:
         print(f"List item: {item}")
 
+
     for cog in cogs:
         try:
             print(f"Loading cog {cog}")
@@ -61,7 +62,7 @@ async def on_ready():
         except Exception as err:
             exec = (type(err).__name__)
             print(f"Failed to load cog: {cog} -> {exec}")
-
+    # print("All cogs are fully loaded!")
     # breakpoint()
 
 # @bot.event

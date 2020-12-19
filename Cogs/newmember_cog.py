@@ -43,8 +43,8 @@ class newmember_cog(commands.Cog):
                     print(f'Member Name: {member.name}, Member Role: {member.roles}')
             ch = bot.get_channel(766111633243635822)
             print(ch)
-        for channelz in bot.guild.text_channels:
-            print(channelz)
+        # for channelz in discord._channel_factory:
+        #     print(channelz)
         
     # @commands.Cog.listener()
     # async def on_member_join(self, member):
@@ -110,6 +110,8 @@ class newmember_cog(commands.Cog):
         if incoming_message.lower() == 'hello':
             await message.channel.send(response0)
 
+        await newmember_cog.info_sessions(message, member)
+
         #FIXME: Make the Regular ex    await on_message2(message)pression work here!
         # pattern1 = re.compile(r'\b({0})\b'.format(w), flags=re.IGNORECASE).search
         if 'happy birthday' in message.content.lower():
@@ -134,7 +136,7 @@ class newmember_cog(commands.Cog):
 
         # TOPROL = discord.Member.top_role
         # breakpoint()
-        if "New Member" == str(TOPROL):#FIXME: *New Member Cheeck Here!
+        if "New Member" == str(TOPROL.name):#FIXME: *New Member Cheeck Here!
             # breakpoint()
             print("NEW MEMBER HITTT!!!!")
             ROLZ = discord.Member.roles
@@ -154,15 +156,15 @@ class newmember_cog(commands.Cog):
                 print(str(discord.Member.top_role(id)))
                 if str(discord.Member.top_role) == "New Member":  #TODO: add this member to Members Roles
                     print('Auth:xxx ',message.author.id)
-                    await user.add_roles(message.guild.get_role(member_role_id))  #TODO:This is KLUDGY
-                    await user.remove_roles(message.guild.get_role(new_member_role_id))  #TODO:This is HACKY Too
+                    await user.add_roles(message.guild.get_role(bot.member_role_id))  #TODO:This is KLUDGY
+                    await user.remove_roles(message.guild.get_role(bot.new_member_role_id))  #TODO:This is HACKY Too
                 else:
                     print("Already a Member!")
             else:
                 await message.author.send(response3)
-                await client.delete_message(message) #bot cannot do this ?
+                await ctx.client.delete_message(message) #bot cannot do this ?
                 await message.delete()
-                await message.author.send(response5)
+                await message.author.send(response3)
 
         # print(f"TOPROL: {TOPROL} for: {MEMNAME}")
         # breakpoint()
@@ -171,12 +173,12 @@ class newmember_cog(commands.Cog):
             # ROLZ = message.author.roles
             # TOPROL = message.author.top_role
             await message.author.send(f"{response4}: Roles {ROLZ}")
-            await message.author.send(f"Top Role {TOPROL}")
+            await message.author.send(f"Top Role {TOPROL.name}")
 
             if str(message.channel) in pre_channels:
                 await message.author.send(response4)
                 if str(member) == "New Member":#TODO: add this member to Members Roles
-                    await add_role(member.roles, "Member")
+                    await newmember_cog.add_role(member.roles, "Member")
                     await message.auhor.add_roles("Member") #TODO: Check this for workness
                     await message.auhor.remove_roles("New Member") #TODO: Check this for workness
                 else:
