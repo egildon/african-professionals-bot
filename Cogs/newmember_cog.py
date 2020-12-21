@@ -24,13 +24,11 @@ class newmember_cog(commands.Cog):
     @bot.event  #This works as expected!
     async def add_role(member, server_role):
         '''Adds a role to user profile'''
-        role = discord.utils.get(member.guild.user, name=str(server_role))
+        role = discord.utils.get(member, name=str(server_role))
         print(member.roles)
         await discord.Member.add_roles(member, role)
         print(f'Member with id: {member}')
         print(member.roles)
-        mrolls = member.roles
-        print(len(mrolls))
 
     @commands.Cog.listener()
     async def on_member_join(*member):
@@ -52,15 +50,14 @@ class newmember_cog(commands.Cog):
             await message.author.send(f"{response13}")
             time.sleep(1)
                 
-    @bot.event  #This works as expected!
-    async def add_role(member, server_role):
-        role = discord.utils.get(member.guild.roles, name=str(server_role))
-        print(member.roles)
-        await discord.Member.add_roles(member, role)
-        print(f'Member with id: {member}')
-        print(member.roles)
-        mrolls = member.roles
-        print(len(mrolls))
+    # @bot.command(pass_context=True)  #This works as expected!
+    # async def add_role(member, server_role):
+    #     role = discord.utils.get(member.guild.roles, name=str(server_role))
+    #     print(member.roles)
+    #     await discord.Member.add_roles(member, role)
+    #     print(f'Member with id: {member}')
+    #     print(member.roles)
+    #     print(len(mrolls))
 
     @commands.Cog.listener()
     async def on_message(ctx, message):
@@ -70,7 +67,7 @@ class newmember_cog(commands.Cog):
         incoming_message_id = message.id
         incoming_message = message.content
         guild_role = discord.Member.top_role #FIXME: guild_role is not returning a useable variable
-        guild_role1 = message.author.top_role #FIXME: guild_role is not returning a useable variable
+        # guild_role1 = message.author.top_role #FIXME: guild_role is not returning a useable variable
         guild_role2 = member #FIXME: guild_role is not returning a useable variable
         response0 = 'Akwaaba!!!'
         response1 = 'Medaase!'
@@ -125,7 +122,7 @@ class newmember_cog(commands.Cog):
             await message.author.send(f"{response13}")
             time.sleep(3)
 
-            if str(message.channel) ==  guildChannelDict['tell_us-about-you']:
+            if str(message.channel.id) ==  guildChannelDict['tell_us-about-you']:
                 #FIXME: This is what I think needs work!!!!
                 await message.author.send(response4)
                 # await message.author.add_roles())
@@ -142,18 +139,16 @@ class newmember_cog(commands.Cog):
                 await ctx.client.delete_message(message) #bot cannot do this ?
                 await message.delete()
                 await message.author.send(response3)
-        # breakpoint()
-        if "New Member" == str(guild_role1.name):#FIXME: New Member Messages Here!
-            await message.author.send(f"{response4}: Role: -{guild_role1.name}-")#Here?
+        isbot = message.author.bot
+        if isbot is False and "New Member" == str(message.author.top_role.name):#FIXME: New Member Messages Here!
+            # await message.author.send(f"{response4}: Role: -{ctx.guild_role1.name}-")#Here?
             # await message.author.send(f"Top Role {str(guild_role1.name)}")
-            if guildChannelDict['tell-us-about-you'] in str(message.channel):
+            # thang = guildChannelDict['tell-us-about-you']
+            if  766111633243635822 == int(message.channel.id):
                 await message.author.send(response4)
-                if str(member) == "New Member":#TODO: add this member to Members Roles
-                    await newmember_cog.add_role(member.roles, "Member")
-                    await message.auhor.add_roles("Member") #TODO: Check this for workness
-                    await message.auhor.remove_roles("New Member") #TODO: Check this for workness
-                else:
-                    print("Already a Member!")
+                # await newmember_cog.add_role(message.author.id, "Member")
+                await discord.Member.add_roles(discord.Role("Member")) #TODO: Check this for workness
+                # await ctx.discord.Member.remove_roles("New Member") #TODO: Check this for workness
             else:
                 await message.author.send(response3)
 

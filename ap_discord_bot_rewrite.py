@@ -23,7 +23,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 guildRoles = {"Member": 766036644582391868, "New Member": 766036457118105620, "@everyone": 760873008738074704}
 guildChannel = {"#tell-us-about-you": 766111633243635822, "#read-first": 788606582761717761}
 
-# cogs: list = ['Cogs.newmember_cog']
+# loaded_cogs: list = ['Cogs.newmember_cog']
 
 @bot.event #TODO:See if this works!
 async def add_role(member, server_role):
@@ -37,8 +37,8 @@ async def add_role(member, server_role):
 
 @bot.event
 async def on_ready():
-    # cogs: list = ['Cogs.newmember_cog']
-    cogs: list = []
+    # loaded_cogs: list = ['Cogs.newmember_cog']
+    loaded_cogs: list = []
     print("ON READY: READY!!!")
     print(f'{bot.user} has connected to Discord!')
     print('We have logged in as {0.user}'.format(bot))
@@ -76,19 +76,19 @@ async def on_ready():
                 cogstr = fnamestr. rstrip(".py")
                 print(cogstr)
 
-                #reload cogs method
+                #reload loaded_cogs method
                 cogstr = (f"Cogs.{cogstr}")
-                if cogstr not in cogs:
+                if cogstr not in loaded_cogs:
                     print(f"Appending: {cogstr}")
-                    cogs.append(cogstr)
+                    loaded_cogs.append(cogstr)
                 else:
                     pass
 
-    for item in cogs:
+    for item in loaded_cogs:
         print(f"List item: {item}")
 
 
-    for cog in cogs:
+    for cog in loaded_cogs:
         try:
             print(f"Loading cog {cog}")
             bot.load_extension(cog) #this is giving me an error
@@ -96,7 +96,7 @@ async def on_ready():
         except Exception as err:
             exec = (type(err).__name__)
             print(f"Failed to load cog: {cog} -> {exec}")
-    # print("All cogs are fully loaded!")
+    # print("All loaded_cogs are fully loaded!")
     # breakpoint()
 
 # @bot.event
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     ##FIXME:Loading the directory only doesnt work, fix it or not!!!
     # @bot.event
     # async def on_ready():
-    #     # run cogs in Cogs dir
+    #     # run loaded_cogs in Cogs dir
     #     for root, dirs, files in os.walk(cwd + "/Cogs"):
     #         for fnamestr in files:
     #             # fnamestr = name(fnamestr)
