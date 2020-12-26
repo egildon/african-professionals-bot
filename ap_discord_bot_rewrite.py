@@ -51,7 +51,6 @@ async def on_ready():
             f'{bot.user} is connected to the following guild:\n'
             f'{guild.name}(id: {guild.id})')
         members = '\n - '.join([member.name for member in guild.members])
-        # members = '\n - '.join([member.name for member in guild.members])
         print(f'Guild Members:\n - {members}')
         print(f'{bot.user} is connected to the following guild:\n'
              f'{guild.name} (id: {guild.id})')
@@ -75,7 +74,6 @@ async def on_ready():
             if testcase1 is False and fnamestr.endswith(".py"):
                 cogstr = fnamestr. rstrip(".py")
                 print(cogstr)
-
                 #reload loaded_cogs method
                 cogstr = (f"Cogs.{cogstr}")
                 if cogstr not in loaded_cogs:
@@ -91,7 +89,7 @@ async def on_ready():
     for cog in loaded_cogs:
         try:
             print(f"Loading cog {cog}")
-            bot.load_extension(cog) #this is giving me an error
+            bot.load_extension(cog)
             print(f"Done Loading {cog}")
         except Exception as err:
             exec = (type(err).__name__)
@@ -99,40 +97,9 @@ async def on_ready():
     # print("All loaded_cogs are fully loaded!")
     # breakpoint()
 
-# @bot.event
-# async def member_check():
-#     print(f'{bot.user} has connected to Discord!')
-#     print('We have logged in as {0.user}'.format(bot))
-#     for guild in bot.guilds:
-#         if guild.name == GUILD:
-#             break
-#         print(
-#             f'{bot.user} is connected to the following guild:\n'
-#             f'{guild.name}(id: {guild.id})')
-#         members = '\n - '.join([member.name for member in guild.members])
-#         # members = '\n - '.join([member.name for member in guild.members])
-#         print(f'Guild Members:\n - {members}')
-#         print(f'{bot.user} is connected to the following guild:\n'
-#              f'{guild.name} (id: {guild.id})')
-#         #TODO: Sorting Hat
-#         for member in guild.members:
-#             role_names = [role.name for role in member.roles]
-#             if len(member.roles) == 1 and "@everyone" in role_names:
-#                 print('Candidate for termination!')
-#                 #changes @everyone to "New Members"
-#                 await add_role(member, "New Member")
-#             else:
-#                 pass
-#             role_names = [role.name for role in member.roles]
-#             if "New Member" in role_names:  #TODO: Check for posts in tell us about yourself
-#                 print(f'Member Name: {member.name}, Member Role: {member.roles}')
-#         ch = bot.get_channel(766111633243635822)
-#         print(ch)
-#     for channelz in guild.text_channels:
-#         print(channelz)
 
 @bot.event
-async def on_message(message): #TODO: Is this needed?
+async def on_message(message, *member): #TODO: Is this needed?
     # ignores bot messages##
     if message.author.bot:
         return
@@ -149,20 +116,5 @@ def str_conditioning(dirtystr):
 
 
 if __name__ == "__main__":
-    ##FIXME:Loading the directory only doesnt work, fix it or not!!!
-    # @bot.event
-    # async def on_ready():
-    #     # run loaded_cogs in Cogs dir
-    #     for root, dirs, files in os.walk(cwd + "/Cogs"):
-    #         for fnamestr in files:
-    #             # fnamestr = name(fnamestr)
-    #             # print(fnamestr)
-    #             # print(type(fnamestr))
-    #             # print(dir(fnamestr))
-    #             test1 = fnamestr.endswith("_cog.py")
-    #             test2 = fnamestr.startswith("_")
-    #             if test1 and not test2:
-    #                 # print(dir(bot.load_<F2>extension))
-    #                 bot.load_extension(f".Cogs{fnamestr[:-3]}")
     bot.run(str_conditioning(TOKEN))
     # breakpoint()
